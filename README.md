@@ -1,20 +1,50 @@
 # pyavanza
 
-A simple Python library for accessing your balance from Avanza. It uses web scraping to login and to parse the data.
+A Python library and client for accessing Avanza account balances.
 
-## Usage
+The client `avanza_client.py` outputs all account balance values as JSON.
 
+Uses a JSON API endpoint to fetch account values.
+
+## Setup and authentication
+
+In order to fetch values from Avanza valid header and cookies has to be setup.
+
+One way to do this is to login to Avanza in a desktop web browser and use the web inspector to copy headers and cookies in order to use the same login session.
+
+## Usage avanza.py
+
+```python
+from avanza.avanza import Avanza
+
+headers = {
+    ...
+}
+
+cookies = {
+    ...
+}
+
+avanza = Avanza(headers, cookies)
+avanza.get_account_values()
 ```
-import json
 
-from avanza import Avanza
+```python
+{
+    "account-name-1": 0,
+    "account-name-2": 100
+}
+```
 
-avanza = Avanza(USERNAME, PASSWORD)
-avanza_login_ok = avanza.login()
+## Usage avanza_client.py
 
-if avanza_login_ok:
-    current_balances = avanza.get_balances_all_accounts()
-    print(json.dumps(current_balances))
+```shell
+python avanza_client.py --headers headers.json --cookies cookies.json
+```
 
-{"Account name 1": 0, "Account name 2": 100}
+```json
+{
+    "account-name-1": 0,
+    "account-name-2": 100
+}
 ```
