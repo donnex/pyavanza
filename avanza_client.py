@@ -8,7 +8,7 @@ from random import randint
 
 import begin
 
-from avanza.avanza import Avanza
+from avanza.avanza import Avanza, AvanzaError
 
 logger = logging.getLogger(__name__)
 
@@ -49,4 +49,8 @@ def run(headers=None, cookies=None, cron=False):
         time.sleep(randint(0, 900))
 
     avanza = Avanza(headers, cookies)
-    print(json.dumps(avanza.get_account_values()))
+    try:
+        print(json.dumps(avanza.get_account_values()))
+    except AvanzaError as e:
+        print(json.dumps({"error": str(e)}))
+        sys.exit(1)
